@@ -30,9 +30,6 @@
   1. [Testing](#testing)
   1. [Performance](#performance)
   1. [Resources](#resources)
-  1. [In the Wild](#in-the-wild)
-  1. [Translation](#translation)
-  1. [The JavaScript Style Guide Guide](#the-javascript-style-guide-guide)
   1. [Contributors](#contributors)
   1. [License](#license)
 
@@ -1109,20 +1106,20 @@
 ## Accessors
 
   - Accessor functions for properties are not required
-  - If you do make accessor functions use getVal() and setVal('hello')
+  - If you do make accessor functions use val() and val('hello')
 
     ```javascript
     // bad
-    dragon.age();
-
-    // good
     dragon.getAge();
 
+    // good
+    dragon.age();
+
     // bad
-    dragon.age(25);
+    dragon.setAge(25);
 
     // good
-    dragon.setAge(25);
+    dragon.age(25);
     ```
 
   - If the property is a boolean, use isVal() or hasVal()
@@ -1137,24 +1134,6 @@
     if (!dragon.hasAge()) {
       return false;
     }
-    ```
-
-  - It's okay to create get() and set() functions, but be consistent.
-
-    ```javascript
-    function Jedi(options) {
-      options || (options = {});
-      var lightsaber = options.lightsaber || 'blue';
-      this.set('lightsaber', lightsaber);
-    }
-
-    Jedi.prototype.set = function(key, val) {
-      this[key] = val;
-    };
-
-    Jedi.prototype.get = function(key) {
-      return this[key];
-    };
     ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -1247,7 +1226,7 @@
 
 ## Events
 
-  - When attaching data payloads to events (whether DOM events or something more proprietary like Backbone events), pass a hash instead of a raw value. This allows a subsequent contributor to add more data to the event payload without finding and updating every handler for the event. For example, instead of:
+  - When attaching data payloads to events (whether DOM events, TokBox trigger or node.js EventEmitter), pass a hash instead of a raw value. This allows a subsequent contributor to add more data to the event payload without finding and updating every handler for the event. For example, instead of:
 
     ```js
     // bad
@@ -1275,12 +1254,10 @@
 
   **[⬆ back to top](#table-of-contents)**
 
-
 ## Modules
 
   - The module should start with a `!`. This ensures that if a malformed module forgets to include a final semicolon there aren't errors in production when the scripts get concatenated. [Explanation](https://github.com/airbnb/javascript/issues/44#issuecomment-13063933)
-  - The file should be named with camelCase, live in a folder with the same name, and match the name of the single export.
-  - Add a method called noConflict() that sets the exported module to the previous version and returns this one.
+  - If your module is adding to the global scope, add a method called noConflict() that sets the exported module to the previous version and returns this one.
   - Always declare `'use strict';` at the top of the module.
 
     ```javascript
@@ -1309,65 +1286,7 @@
 
 ## jQuery
 
-  - Prefix jQuery object variables with a `$`.
-
-    ```javascript
-    // bad
-    var sidebar = $('.sidebar');
-
-    // good
-    var $sidebar = $('.sidebar');
-    ```
-
-  - Cache jQuery lookups.
-
-    ```javascript
-    // bad
-    function setSidebar() {
-      $('.sidebar').hide();
-
-      // ...stuff...
-
-      $('.sidebar').css({
-        'background-color': 'pink'
-      });
-    }
-
-    // good
-    function setSidebar() {
-      var $sidebar = $('.sidebar');
-      $sidebar.hide();
-
-      // ...stuff...
-
-      $sidebar.css({
-        'background-color': 'pink'
-      });
-    }
-    ```
-
-  - For DOM queries use Cascading `$('.sidebar ul')` or parent > child `$('.sidebar > ul')`. [jsPerf](http://jsperf.com/jquery-find-vs-context-sel/16)
-  - Use `find` with scoped jQuery object queries.
-
-    ```javascript
-    // bad
-    $('ul', '.sidebar').hide();
-
-    // bad
-    $('.sidebar').find('ul').hide();
-
-    // good
-    $('.sidebar ul').hide();
-
-    // good
-    $('.sidebar > ul').hide();
-
-    // good
-    $sidebar.find('ul').hide();
-    ```
-
-**[⬆ back to top](#table-of-contents)**
-
+  See [You Might Not Need jQuery](http://youmightnotneedjquery.com/).
 
 ## ECMAScript 5 Compatibility
 
@@ -1395,7 +1314,6 @@
   - [String vs Array Concat](http://jsperf.com/string-vs-array-concat/2)
   - [Try/Catch Cost In a Loop](http://jsperf.com/try-catch-in-loop-cost)
   - [Bang Function](http://jsperf.com/bang-function)
-  - [jQuery Find vs Context, Selector](http://jsperf.com/jquery-find-vs-context-sel/13)
   - [innerHTML vs textContent for script text](http://jsperf.com/innerhtml-vs-textcontent-for-script-text)
   - [Long String Concatenation](http://jsperf.com/ya-string-concat)
   - Loading...
@@ -1413,7 +1331,6 @@
 **Other Styleguides**
 
   - [Google JavaScript Style Guide](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml)
-  - [jQuery Core Style Guidelines](http://docs.jquery.com/JQuery_Core_Style_Guidelines)
   - [Principles of Writing Consistent, Idiomatic JavaScript](https://github.com/rwldrn/idiomatic.js/)
 
 **Other Styles**
@@ -1463,62 +1380,19 @@
 
 ## In the Wild
 
-  This is a list of organizations that are using this style guide. Send us a pull request or open an issue and we'll add you to the list.
-
-  - **Aan Zee**: [AanZee/javascript](https://github.com/AanZee/javascript)
-  - **Airbnb**: [airbnb/javascript](https://github.com/airbnb/javascript)
-  - **American Insitutes for Research**: [AIRAST/javascript](https://github.com/AIRAST/javascript)
-  - **Compass Learning**: [compasslearning/javascript-style-guide](https://github.com/compasslearning/javascript-style-guide)
-  - **Digitpaint** [digitpaint/javascript](https://github.com/digitpaint/javascript)
-  - **ExactTarget**: [ExactTarget/javascript](https://github.com/ExactTarget/javascript)
-  - **Gawker Media**: [gawkermedia/javascript](https://github.com/gawkermedia/javascript)
-  - **GeneralElectric**: [GeneralElectric/javascript](https://github.com/GeneralElectric/javascript)
-  - **GoodData**: [gooddata/gdc-js-style](https://github.com/gooddata/gdc-js-style)
-  - **Grooveshark**: [grooveshark/javascript](https://github.com/grooveshark/javascript)
-  - **How About We**: [howaboutwe/javascript](https://github.com/howaboutwe/javascript)
-  - **Mighty Spring**: [mightyspring/javascript](https://github.com/mightyspring/javascript)
-  - **MinnPost**: [MinnPost/javascript](https://github.com/MinnPost/javascript)
-  - **ModCloth**: [modcloth/javascript](https://github.com/modcloth/javascript)
-  - **Money Advice Service**: [moneyadviceservice/javascript](https://github.com/moneyadviceservice/javascript)
-  - **National Geographic**: [natgeo/javascript](https://github.com/natgeo/javascript)
-  - **National Park Service**: [nationalparkservice/javascript](https://github.com/nationalparkservice/javascript)
-  - **Peerby**: [Peerby/javascript](https://github.com/Peerby/javascript)
-  - **Razorfish**: [razorfish/javascript-style-guide](https://github.com/razorfish/javascript-style-guide)
-  - **SeekingAlpha**: [seekingalpha/javascript-style-guide](https://github.com/seekingalpha/javascript-style-guide)
-  - **REI**: [reidev/js-style-guide](https://github.com/reidev/js-style-guide)
-  - **Ripple**: [ripple/javascript-style-guide](https://github.com/ripple/javascript-style-guide)
-  - **Shutterfly**: [shutterfly/javascript](https://github.com/shutterfly/javascript)
-  - **Userify**: [userify/javascript](https://github.com/userify/javascript)
-  - **Zillow**: [zillow/javascript](https://github.com/zillow/javascript)
-  - **ZocDoc**: [ZocDoc/javascript](https://github.com/ZocDoc/javascript)
-
-## Translation
-
-  This style guide is also available in other languages:
-
-  - :de: **German**: [timofurrer/javascript-style-guide](https://github.com/timofurrer/javascript-style-guide)
-  - :jp: **Japanese**: [mitsuruog/javacript-style-guide](https://github.com/mitsuruog/javacript-style-guide)
-  - :br: **Portuguese**: [armoucar/javascript-style-guide](https://github.com/armoucar/javascript-style-guide)
-  - :cn: **Chinese**: [adamlu/javascript-style-guide](https://github.com/adamlu/javascript-style-guide)
-  - :es: **Spanish**: [paolocarrasco/javascript-style-guide](https://github.com/paolocarrasco/javascript-style-guide)
-  - :kr: **Korean**: [tipjs/javascript-style-guide](https://github.com/tipjs/javascript-style-guide)
-  - :fr: **French**: [nmussy/javascript-style-guide](https://github.com/nmussy/javascript-style-guide)
-  - :ru: **Russian**: [uprock/javascript](https://github.com/uprock/javascript)
-  - :bg: **Bulgarian**: [borislavvv/javascript](https://github.com/borislavvv/javascript)
-
-## The JavaScript Style Guide Guide
-
-  - [Reference](https://github.com/airbnb/javascript/wiki/The-JavaScript-Style-Guide-Guide)
+  The list of organizations using similar style guides (including translations) can be found at
+  the original from [Airbnb](https://github.com/airbnb/javascript).
 
 ## Contributors
 
-  - [View Contributors](https://github.com/airbnb/javascript/graphs/contributors)
+  - [View Contributors](https://github.com/opentok/javascript/graphs/contributors)
 
 
 ## License
 
 (The MIT License)
 
+Copyright (c) 2014 Tokbox Inc.
 Copyright (c) 2014 Airbnb
 
 Permission is hereby granted, free of charge, to any person obtaining
