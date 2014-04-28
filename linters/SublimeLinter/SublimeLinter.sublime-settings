@@ -22,9 +22,6 @@
       // Define globals exposed by modern browsers.
       "browser": true,
 
-      // Define globals exposed by jQuery.
-      "jquery": true,
-
       // Define globals exposed by Node.js.
       "node": true,
 
@@ -42,6 +39,13 @@
 
       // Suppress warnings about == null comparisons.
       "eqnull": true,
+
+      // Our code uses ECMAScript 6 specific syntax.
+      "esnext": true,
+
+      // Suppresses warnings about the use of expressions where normally
+      // you would expect to see assignments or function calls
+      "expr": true,
 
       // Enforce tab width of 2 spaces.
       "indent": 2,
@@ -63,11 +67,16 @@
 
       // Warn when variables are defined but never used.
       "unused": true,
-      
-      // Enforce line length to 80 characters
-      "maxlen": 80,
 
-      // Enforce placing 'use strict' at the top function scope
-      "strict": true
+      // Enforce line length to 100 characters
+      "maxlen": 100,
+
+      // Suppresses warnings about mixed tabs and spaces when the latter are used for alignmnent only
+      "smarttabs": true,
+
+      // Don't enforce placing 'use strict' at the top function scope
+      "strict": false
+
     }
+
 }
