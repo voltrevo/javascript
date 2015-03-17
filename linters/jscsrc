@@ -1,0 +1,14 @@
+{
+  "preset": "airbnb",
+  "disallowMultipleVarDecl": null,
+  "disallowTrailingWhitespace": "ignoreEmptyLines",
+  "requireCurlyBraces": [
+    "if",
+    "else",
+    "for",
+    "while",
+    "do",
+    "try",
+    "catch"
+  ]
+}
