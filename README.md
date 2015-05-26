@@ -1141,7 +1141,39 @@
 
 ## Constructors
 
-  - Assign methods to the prototype object, instead of overwriting the prototype with a new object. Overwriting the prototype makes inheritance impossible: by resetting the prototype you'll overwrite the base!
+  - Prefer factories over prototypes
+  
+    ```javascript
+    // bad
+    function Widget(name) {
+      this.privateField = 'Hello ';
+      this.name = name;
+    }
+    
+    Widget.prototype.publicMethod = function() {
+      return this.privateField + this.name + '!';
+    }
+    
+    var widget = new Widget('Testing');
+    
+    // good
+    var createWidget = function(name) {
+      var api = new (function Widget(){})();
+
+      var privateField = 'Hello ';
+    
+      api.publicMethod = function() {
+        return privateField + name + '!';
+      };
+    
+      return api;
+    }
+    
+    var widget = createWidget('Testing!');
+  ```
+  - Use prototypes only when an extremely large number of objects will be created (think in the millions)
+  - You're probably better off not using prototype then either.
+  - If you are using it though, assign methods to the prototype object, instead of overwriting the prototype with a new object. Overwriting the prototype makes inheritance impossible: by resetting the prototype you'll overwrite the base!
 
     ```javascript
     function Jedi() {
@@ -1207,17 +1239,20 @@
   - It's okay to write a custom toString() method, just make sure it works successfully and causes no side effects.
 
     ```javascript
-    function Jedi(options) {
+    var createJedi = function(options) {
+      var api = new (function Jedi() { })();
       options || (options = {});
-      this.name = options.name || 'no name';
-    }
-
-    Jedi.prototype.getName = function getName() {
-      return this.name;
-    };
-
-    Jedi.prototype.toString = function toString() {
-      return 'Jedi - ' + this.getName();
+      var name = options.name || 'no name';
+        
+      api.getName = function getName() {
+        return name;
+      };
+      
+      api.toString = function toString() {
+        return 'Jedi - ' + name;
+      };
+      
+      return api;
     };
     ```
 
