@@ -354,10 +354,10 @@
 
     ```javascript
     // bad
-    superPower = new SuperPower();
+    superPower = createSuperPower();
 
     // good
-    var superPower = new SuperPower();
+    var superPower = createSuperPower();
     ```
 
   - Use one `var` declaration for multiple variables and declare each variable on a newline.
@@ -597,7 +597,7 @@
 
 ## Blocks
 
-  - Use braces with all multi-line blocks.
+  - Use braces with all blocks.
 
     ```javascript
     // bad
@@ -1205,31 +1205,47 @@
 
     ```javascript
     // bad
-    Jedi.prototype.jump = function() {
-      this.jumping = true;
-      return true;
+    var createJedi = function() {
+      var api = {};
+      var jumping = false;
+      var height;
+
+      api.jump = function() {
+        jumping = true;
+        return true;
+      };
+  
+      api.setHeight = function(newHeight) {
+        height = newHeight;
+      };
+      
+      return api;
     };
 
-    Jedi.prototype.setHeight = function(height) {
-      this.height = height;
-    };
-
-    var luke = new Jedi();
+    var luke = createJedi();
     luke.jump(); // => true
     luke.setHeight(20) // => undefined
 
     // good
-    Jedi.prototype.jump = function() {
-      this.jumping = true;
-      return this;
+    var createJedi = function() {
+      var api = {};
+      var jumping = false;
+      var height;
+
+      api.jump = function() {
+        jumping = true;
+        return api;
+      };
+  
+      api.setHeight = function(newHeight) {
+        height = newHeight;
+        return api;
+      };
+      
+      return api;
     };
 
-    Jedi.prototype.setHeight = function(height) {
-      this.height = height;
-      return this;
-    };
-
-    var luke = new Jedi();
+    var luke = createJedi();
 
     luke.jump()
       .setHeight(20);
@@ -1301,18 +1317,18 @@
     !function(global) {
       'use strict';
 
-      var previousFancyInput = global.FancyInput;
+      var previousFancyInput = global.createFancyInput;
 
-      function FancyInput(options) {
-        this.options = options || {};
+      function createFancyInput(options) {
+        var options = options || {};
       }
 
-      FancyInput.noConflict = function noConflict() {
-        global.FancyInput = previousFancyInput;
-        return FancyInput;
+      createFancyInput.noConflict = function noConflict() {
+        global.createFancyInput = previousFancyInput;
+        return createFancyInput;
       };
 
-      global.FancyInput = FancyInput;
+      global.createFancyInput = createFancyInput;
     }(this);
     ```
 
